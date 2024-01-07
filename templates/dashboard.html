@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mr. Business</title>
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .grid-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .resource {
+            background-color: #f0f0f0;
+        }
+        .process {
+            background-color: #d0d0d0;
+        }
+        .questions {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <form action="/text" method="post">
+        <input type="text" name="text" required>
+        <input type="submit" value="Submit">
+    </form>
+    {% if text %}
+    <p>You entered: {{ text }}</p>
+    {% endif %}
+    <h2>Problem// {{ column2 }}</h2>
+    <!-- <p>openAI Response: {{ resp }}</p> -->
+
+
+
+    <div class="grid">
+        {% for item in grid %}
+        <div class="grid-item {{ 'questions' if item.value.questions else '' }} {{ 'resource' if item.type == 'resource' else 'process' }}" title="{{ item.value.citations if item.type == 'resource' else item.value.quotes }}">
+            {% if item.type == 'resource' %}
+                    <h2>{{ item.value.state }}</h2>
+                {% else %}
+                    <h2>{{ item.value.description }}</h2>
+                {% endif %}
+                {% if item.value.questions %}
+                {% for question_key, question_value in item.value.questions.items() %}
+                    <p>{{ question_value }}</p>
+                {% endfor %}
+            {% endif %}
+            </div>
+        {% endfor %}
+        </div>
+
+        <h2>{{ column3 }}</h2>
+
+
+    <form action="/appdata" method="post">
+        <input type="submit" value="Next">
+    </form>
+</body>
+</html>

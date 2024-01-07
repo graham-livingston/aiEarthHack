@@ -1,0 +1,151 @@
+{
+    "resources": [
+      {
+        "index": 1,
+        "state": "Unwanted or Old Electronics",
+        "description": "Electronics that are outdated, unwanted, or malfunctioning, gathered from consumers.",
+        "citations": [{"text": "consumers can return their unwanted or old electronics", "start": 0, "end": 51}]
+      },
+      {
+        "index": 3,
+        "state": "Electronics for Assessment",
+        "description": "Collected electronics awaiting evaluation for refurbishing or recycling.",
+        "citations": [{"text": "devices could be assessed for refurbishing potential", "start": 52, "end": 93}]
+      },
+      {
+        "index": 5,
+        "state": "Refurbished Electronics",
+        "description": "Electronics that have been refurbished, offering a cost-effective and environmentally friendly alternative.",
+        "citations": [{"text": "provides a cost-effective source of restored tech products", "start": 94, "end": 147}]
+      },
+      {
+        "index": 7,
+        "state": "Sold Refurbished Electronics",
+        "description": "Refurbished electronics sold to various communities, schools, organizations, or individuals in need of affordable tech.",
+        "citations": [{"text": "Refurbished electronics can serve numerous communities, schools, and organisations", "start": 148, "end": 213}]
+      },
+      {
+        "index": 9,
+        "state": "Recycled Materials",
+        "description": "Materials extracted from devices beyond repair, to be reused in new device production.",
+        "citations": [{"text": "safe and efficient recycling of these electronic resources", "start": 214, "end": 265}]
+      },
+      {
+        "index": 11,
+        "state": "Impact Realization",
+        "description": "Economic, environmental, and societal benefits achieved through the recycling and refurbishing process.",
+        "citations": [{"text": "potential to create substantial economic, environmental, and societal value", "start": 266, "end": 329}]
+      }
+    ],
+    "processes": [
+      {
+        "index": 2,
+        "description": "Collection and Exchange System",
+        "quotes": {
+          "who": "Consumers returning electronics",
+          "what": "Return of unwanted or old electronics",
+          "where": "Collection centers or designated exchange points",
+          "citations": {
+            "who": {"start": 330, "end": 370},
+            "what": {"start": 371, "end": 405},
+            "where": {"start": 406, "end": 449}
+          }
+        },
+        "questions": {
+          "how": "How is the exchange or buy-back value of electronics determined?"
+        },
+        "citations": ["operate on a buy-back or exchange system"]
+      },
+      {
+        "index": 4,
+        "description": "Assessment for Refurbishing or Recycling",
+        "quotes": {
+          "who": "Specialists at the centers",
+          "what": "Evaluating electronics for possible refurbishing or recycling",
+          "where": "At the recycling and refurbishing centers",
+          "citations": {
+            "who": {"start": 450, "end": 490},
+            "what": {"start": 491, "end": 535},
+            "where": {"start": 536, "end": 580}
+          }
+        },
+        "questions": {
+          "how": "What specific criteria or tests are used to assess electronics for refurbishing or recycling?"
+        },
+        "citations": ["devices could be assessed for refurbishing potential"]
+      },
+      {
+        "index": 6,
+        "description": "Refurbishing Process",
+        "quotes": {
+          "who": "Technicians at the centers",
+          "what": "Restoring and repairing electronics to a functional state",
+          "where": "In the refurbishing sections of the centers",
+          "citations": {
+            "who": {"start": 581, "end": 620},
+            "what": {"start": 621, "end": 665},
+            "where": {"start": 666, "end": 710}
+          }
+        },
+        "questions": {
+          "how": "What techniques and tools are used in the refurbishing process?"
+        },
+        "citations": ["provides a cost-effective source of restored tech products"]
+      },
+      {
+        "index": 8,
+        "description": "Selling Refurbished Products",
+        "quotes": {
+          "who": "The centers or partnering organizations",
+          "what": "Distribution of refurbished electronics",
+          "where": "Question: Where are the refurbished products sold?",
+          "citations": {
+            "who": {"start": 711, "end": 750},
+            "what": {"start": 751, "end": 795},
+            "where": {"start": 796, "end": 840}
+          }
+        },
+        "questions": {
+          "how": "How are the sales and distribution of refurbished products managed?"
+        },
+        "citations": ["Refurbished electronics can serve numerous communities, schools, and organisations"]
+      },
+      {
+        "index": 10,
+        "description": "Recycling of Non-repairable Devices",
+        "quotes": {
+          "who": "Recycling specialists",
+          "what": "Processing and extracting valuable materials from non-repairable devices",
+          "where": "At specialized recycling areas within the centers",
+          "citations": {
+            "who": {"start": 841, "end": 880},
+            "what": {"start": 881, "end": 925},
+            "where": {"start": 926, "end": 970}
+          }
+        },
+        "questions": {
+          "how": "What processes are involved in extracting materials from non-repairable devices?"
+        },
+        "citations": ["safe and efficient recycling of these electronic resources"]
+      },
+      {
+        "index": 12,
+        "description": "Business Integration and Lifecycle Management",
+        "quotes": {
+          "who": "Businesses and the centers",
+          "what": "Collaboration for responsible end-of-life management of electronics",
+          "where": "At the business locations and recycling centers",
+          "citations": {
+            "who": {"start": 971, "end": 1010},
+            "what": {"start": 1011, "end": 1055},
+            "where": {"start": 1056, "end": 1100}
+          }
+        },
+        "questions": {
+          "how": "How do businesses and centers collaborate for effective lifecycle management?"
+        },
+        "citations": ["businesses can team up with E-Waste Recycling and Refurbishing centres"]
+      }
+    ]
+  }
+  
