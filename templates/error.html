@@ -15,7 +15,7 @@
             background-color: #f0f0f0; /* Optional: just for better visibility */
         }
 
-        #formContainer {
+        #divContainer {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,11 +29,13 @@
     </style>
 </head>
 <body>
-    <div id="formContainer">
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="submit" value="Upload your csv">
+    <div id="divContainer">
+       <p>{{message}}</p></br>
+
+       <form action="/tryagain" method="post">
+        <button type="submit">Try again</button>
         </form>
+        
     </div>
 
 </body>

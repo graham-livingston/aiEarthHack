@@ -4,13 +4,16 @@ import json
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify
 from flask_session import Session
 
-from itertools import zip_longest
-
 from functions import getResponse, parseResponse
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
+
+
+
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -19,10 +22,14 @@ def home():
     return render_template('index.html')
 
 
+
+
+
+
+
 @app.route('/appdata', methods=['GET', 'POST'])
 def appdata():
     
-    searchTerm = 'hello'
     if 'row_index' not in session:
         session['row_index'] = 1
 
@@ -37,21 +44,50 @@ def appdata():
 
     row = rows[session['row_index']]
     
-    #get response from openai
-    resp = parseResponse(getResponse(row[2], searchTerm))
-    
-    #reading json file for example data
-    data = json.loads(resp)
-    
-    grid = [{'type': 'resource', 'value': val} for val in data['resources']] + [{'type': 'process', 'value': val} for val in data['processes']]
-    grid.sort(key=lambda x: x['value']['index'])
-    
-    return render_template('dashboard.html', column2=row[1], column3=row[2], resp=resp, grid=grid, text=session.get('text'))
+    try:
+            #get response from openai
+        resp = parseResponse(getResponse(row[2]))
+        
+        #reading json file for example data
+        data = json.loads(resp[0])
+        
+        relevency_data = resp[1]
+        
+        grid = [{'type': 'resource', 'value': val} for val in data['resources']] + [{'type': 'process', 'value': val} for val in data['processes']]
+        grid.sort(key=lambda x: x['value']['index'])
+        
+        return render_template('dashboard.html', column2=row[1], column3=row[2], resp=resp, grid=grid, relevency_data = relevency_data, text=session.get('text'))
+
+    except Exception as e:
+        # Redirect to an error page
+        print(e)
+        return redirect(url_for('error_page', message=str(e)))
+
+@app.route('/error')
+def error_page():
+    message = request.args.get('message', 'An error occurred!')
+    return render_template('error.html', message=message)
+
+
+
+
+
+
 
 @app.route('/text', methods=['POST'])
 def text():
     session['text'] = request.form.get('text')
     return redirect(url_for('appdata'))
+
+
+
+@app.route('/tryagain', methods=['POST'])
+def tryagain():
+    return redirect(url_for('appdata'))
+
+
+
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

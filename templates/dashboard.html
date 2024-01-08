@@ -2,62 +2,188 @@
 <html>
 <head>
     <title>Mr. Business</title>
+
+    <!-- import jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
     <style>
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
-        }
-        .grid-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-        .resource {
-            background-color: #f0f0f0;
-        }
-        .process {
-            background-color: #d0d0d0;
-        }
+        
+body {
+    font-family: 'Open Sans', sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Adjusted for two main columns */
+    grid-template-rows: auto 1fr; /* Auto for the header, 1fr for the content */
+    gap: 20px;
+    padding: 20px;
+    height: 100vh;
+    background-color: #f8f8f8; /* Light grey background */
+}
+
+/* Main grid layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns in the resource map */
+    gap: 10px;
+}
+
+.grid-item {
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    flex: 1; /* Flex grow to fill the space equally */
+    text-align: center;
+    font-size: calc(10px + 1vmin); /* Responsive font size */
+}
+
+/* Positioning the resource map and process items */
+#resourceMap {
+    display: flex; /* Flexbox for single row layout */
+    /* align-items: center; Vertically center items */
+    justify-content: flex-start; /* Align items to the left */
+    grid-column: 1 ; /* Stretch across two columns */
+    z-index: 2; /* Higher z-index for overlap */
+    /* background-color: #d4d4d4; Light grey background */
+}
+
+.process{
+    grid-column: 1;
+    /* align-self: end; */
+    margin-left: -10px;
+
+    /* grid-column: 1 / 2;
+    align-self: end;
+    margin-left: -10px; /* Overlapping to the left */
+    /* background-color: #c0c0c0; Intermediate grey for processes */
+
+}
+
+/* Styling for the right column */
+.column3 {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    z-index: 1;
+}
+
+/* Right column subgrids */
+.right-column-grid {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr); /* Three stacked subgrids */
+    gap: 10px;
+    z-index: 1;
+}
+
+/* Right column and other elements */
+/* .column3, .right-column-grid {
+    grid-column: 2;
+    z-index: 1; /* Lower z-index */
+/* } */
+
+/* Greyscale color scheme adjustments */
+.resource {
+    grid-column: 1;
+    /* align-self: end; */
+    background-color: #d4d4d4; /* Darker grey for resources */
+}
         .questions {
             border-color: red;
+            border-style: solid;
         }
-    </style>
+        .highlight {
+    background-color: yellow;
+}
+.popup_q { display: none;
+    }
+        </style>
 </head>
 <body>
-    <form action="/text" method="post">
-        <input type="text" name="text" required>
-        <input type="submit" value="Submit">
-    </form>
-    {% if text %}
-    <p>You entered: {{ text }}</p>
-    {% endif %}
-    <h2>Problem// {{ column2 }}</h2>
-    <!-- <p>openAI Response: {{ resp }}</p> -->
 
-
-
-    <div class="grid">
+    <div class="grid" id="resourceMap">
         {% for item in grid %}
-        <div class="grid-item {{ 'questions' if item.value.questions else '' }} {{ 'resource' if item.type == 'resource' else 'process' }}" title="{{ item.value.citations if item.type == 'resource' else item.value.quotes }}">
+        <div class="grid-item {{ 'questions' if item.value.questions else '' }} {{ 'resource' if item.type == 'resource' else 'process' }}" title="{{ item.value.citations[0].text if item.type == 'resource' else item.value.quotes }}">
             {% if item.type == 'resource' %}
-                    <h2>{{ item.value.state }}</h2>
+                    <p>{{ item.value.description }}</p>
                 {% else %}
-                    <h2>{{ item.value.description }}</h2>
+                    <p>{{ item.value.description }}</p>
                 {% endif %}
                 {% if item.value.questions %}
                 {% for question_key, question_value in item.value.questions.items() %}
-                    <p>{{ question_value }}</p>
+                    <p class="popup_q">{{ question_value }}</p>
                 {% endfor %}
             {% endif %}
             </div>
         {% endfor %}
         </div>
+   
+        <div id="popupContainer" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); border:1px solid #ccc; padding:20px; background-color:white; z-index:1000;">
+            <span id="popupClose" style="cursor:pointer; position:absolute; top:10px; right:10px;">&times;</span>
+            <div id="popupContent"></div>
+        </div>
+        
 
-        <h2>{{ column3 }}</h2>
+        <div class="right-column-grid" style="background-color: beige;"><h3>Relevency Metrics</h3><p>{{relevency_data}}</p></div>
 
+        <p class="column3" id="column3">{{ column3 }}</p>
 
     <form action="/appdata" method="post">
         <input type="submit" value="Next">
     </form>
+
+    <script>
+$(document).ready(function() {
+
+    $('.grid-item').click(function() {
+        // Get the content from .popup_q elements within the clicked grid-item
+        var popupContent = $(this).find('.popup_q').html();
+        
+        // Set the content in the popup container
+        $('#popupContent').html(popupContent);
+
+        // Display the popup container
+        $('#popupContainer').show();
+    });
+
+    // Close the popup when the close button is clicked
+    $('#popupClose').click(function() {
+        $('#popupContainer').hide();
+    });
+
+    // Add hover event to grid items that also have the 'resource' class
+    $('.grid-item.resource').hover(function() {
+        
+        var citationText = $(this).attr('title');
+
+        console.log(citationText);
+        // console.log(jsonString);  // Log the JSON string to the console
+
+
+        // // Parse the JSON string
+        // var data = JSON.parse(jsonString);
+
+
+        // // Get the citation text
+        // var citationText = data.text;
+
+        // Only proceed if citationText is a string and not empty
+        if (typeof citationText === 'string' && citationText.trim() !== '') {
+            // Get the text from the column3 tag
+            var text = $("#column3").html();
+
+            // Create a regular expression to find the citation text in the string
+            var regex = new RegExp(citationText, 'g');
+
+            // Replace the citation text with the highlighted version
+            text = text.replace(regex, '<span class="highlight">' + citationText + '</span>');
+
+            // Update the column3 tag with the highlighted text
+            $("#column3").html(text);
+        }
+    }, function() {
+        // Remove the highlight when the mouse leaves the grid item
+        var text = $("#column3").text();
+        $("#column3").text(text);
+    });
+});
+    </script>
 </body>
 </html>
