@@ -93,7 +93,7 @@ If the process is higlighted in red, that means there are missing citations from
 ### Relevancy Check
 ![Relevancy Check](./imgs/relevency_metrics.JPG)
 
-Featured in the Baige square, the relevancy metrics help quickly review the relevancy of the solution. This metrics are produced through prompting chatGPT with the following two steps:
+Featured in the top right sidebar, the relevancy metrics help quickly review the relevancy of the solution. This metrics are produced through prompting chatGPT with the following two steps:
 
 1. **Identify the type of circular business**: Determine which category the solution falls into based on the criteria provided below.
 2. **Assess the solution's relevance and clarity**: Determine whether the solution is off-topic or too vague. Provide a simple "Yes" or "No" response for this part.
