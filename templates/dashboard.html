@@ -5,100 +5,121 @@
 
     <!-- import jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Optima&display=swap" rel="stylesheet">
 
     <style>
+    /* General styles */
+        body {
+            font-family: "Optima", sans-serif;
+            background-color: #fefcfc;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: row;
+          }
+          
+          /* Header */
+          .header {
+            background-color: #2551da;
+            color: white;
+            padding: 10px;
+            text-align: center;
+          }
+          
+          /* Main container */
+          .container {
+            display: flex;
+            flex-direction: row;
+            flex: 2; /* Take up remaining space */
+          }
         
-body {
-    font-family: 'Open Sans', sans-serif;
-    display: grid;
-    grid-template-columns: 1fr 2fr; /* Adjusted for two main columns */
-    grid-template-rows: auto 1fr; /* Auto for the header, 1fr for the content */
-    gap: 20px;
-    padding: 20px;
-    height: 100vh;
-    background-color: #f8f8f8; /* Light grey background */
-}
+          .content-area{
+            display: flex;
+            flex-direction: column;
+            padding: 10vh;
+            flex: 2; /* Take up remaining space */
+          }
+          
+          /* Main content */
+          .top-row {
+            flex: 2; /* Takes 1 part of the available space */
+            padding: 3vh;
+            background-color: #f0f0f02b;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(calc(15% - 10px), 1fr));
+            grid-gap: 10px; /* This is the gap between the squares */
+            align-content: start;
+            }
 
-/* Main grid layout */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three columns in the resource map */
-    gap: 10px;
-}
+          .grid-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: clamp(10px, 1em, 16px);
+            text-align: center;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            aspect-ratio: 1 / 1; /* Makes the item a square */
+            }
 
-.grid-item {
-    /* border: 1px solid #ccc; */
-    padding: 10px;
-    flex: 1; /* Flex grow to fill the space equally */
-    text-align: center;
-    font-size: calc(10px + 1vmin); /* Responsive font size */
-}
+            .resource {
+                background-color: rgba(176, 227, 167, 0.04);
+            }
 
-/* Positioning the resource map and process items */
-#resourceMap {
-    display: flex; /* Flexbox for single row layout */
-    /* align-items: center; Vertically center items */
-    justify-content: flex-start; /* Align items to the left */
-    grid-column: 1 ; /* Stretch across two columns */
-    z-index: 2; /* Higher z-index for overlap */
-    /* background-color: #d4d4d4; Light grey background */
-}
+            .process {
+                background-color: rgba(255, 255, 255, 0.312);
+            }
 
-.process{
-    grid-column: 1;
-    /* align-self: end; */
-    margin-left: -10px;
+            .questions {
+                border-style: solid;
+                border-color: rgba(211, 50, 50, 0.77);
+            }
+            
+          .bottom-row {
+            flex: 2; /* Takes 2 parts of the available space */
+            padding: 3vh;
+            background-color: #f0f0f01a;
+          }
 
-    /* grid-column: 1 / 2;
-    align-self: end;
-    margin-left: -10px; /* Overlapping to the left */
-    /* background-color: #c0c0c0; Intermediate grey for processes */
-
-}
-
-/* Styling for the right column */
-.column3 {
-    grid-column: 1;
-    grid-row: 2;
-    align-self: start;
-    z-index: 1;
-}
-
-/* Right column subgrids */
-.right-column-grid {
-    display: grid;
-    grid-template-rows: repeat(3, 1fr); /* Three stacked subgrids */
-    gap: 10px;
-    z-index: 1;
-}
-
-/* Right column and other elements */
-/* .column3, .right-column-grid {
-    grid-column: 2;
-    z-index: 1; /* Lower z-index */
-/* } */
-
-/* Greyscale color scheme adjustments */
-.resource {
-    grid-column: 1;
-    /* align-self: end; */
-    background-color: #d4d4d4; /* Darker grey for resources */
-}
-        .questions {
-            border-color: red;
-            border-style: solid;
-        }
-        .highlight {
-    background-color: yellow;
-}
-.popup_q { display: none;
-    }
-        </style>
+          .highlight {
+            background-color: rgba(244, 248, 5, 0.938);
+          }
+          
+          /* Sidebar with 5 equal height rows */
+          .sidebar {
+            flex: 1; /* Takes 1 part of the available space */
+            display: flex;
+            padding: 10vh;
+            flex-direction: column;
+            background-color: rgb(249, 249, 249);
+            box-shadow: -0.5vh 0px 10px 0px rgba(0, 0, 0, 0.5) /* Horizontal offset, vertical offset, blur radius, spread radius, color */
+          }
+          
+          .sidebar > div {
+            flex: 1; /* Each child takes equal height */
+          }
+          
+          /* Responsive adjustments */
+          @media (max-width: 800px) {
+            body {
+              flex-direction: column-reverse; /* Stack the sidebar under the main content */
+            }
+          
+            .top-row, .bottom-row, .sidebar {
+              flex: none; /* Reset flex values */
+              width: 100%; /* Full width for small screens */
+            }
+          }
+          
+</style>
 </head>
 <body>
+<div class="container">
+    <div class="content-area">
 
-    <div class="grid" id="resourceMap">
+    <div class="top-row" id="resourceMap">
         {% for item in grid %}
         <div class="grid-item {{ 'questions' if item.value.questions else '' }} {{ 'resource' if item.type == 'resource' else 'process' }}" title="{{ item.value.citations[0].text if item.type == 'resource' else item.value.quotes }}">
             {% if item.type == 'resource' %}
@@ -108,7 +129,7 @@ body {
                 {% endif %}
                 {% if item.value.questions %}
                 {% for question_key, question_value in item.value.questions.items() %}
-                    <p class="popup_q">{{ question_value }}</p>
+                    <p class="popup_q" style="display: none;">{{ question_value }}</p>
                 {% endfor %}
             {% endif %}
             </div>
@@ -121,27 +142,52 @@ body {
         </div>
         
 
-        <div class="right-column-grid" style="background-color: beige;"><h3>Relevency Metrics</h3><p>{{relevency_data}}</p></div>
 
-        <p class="column3" id="column3">{{ column3 }}</p>
+        <p class="bottom-row" id="column3">{{ column3 }}</p>
 
-    <form action="/appdata" method="post">
-        <input type="submit" value="Next">
-    </form>
+    </div>
+
+        <div class="sidebar">
+            <div class="row1">
+                <h3>Relevency Metrics</h3>
+            </div>
+            <div class="row2">
+                <p>Relevency Score: {{relevency_score}}</p>
+                <p>Relevency Data: {{relevency_data}}</p>
+            </div>
+            <h3 class="row3">Creativity Metrics</h3>
+            <div class="row4">
+                <p> Score: {{relevency_score}}</p>
+            </div>
+            <div class="row5">
+                <form action="/appdata" method="post">
+                    <input type="submit" value="Next">
+                </form>
+            </div>
+        </div>
+
+ </div>
 
     <script>
 $(document).ready(function() {
 
     $('.grid-item').click(function() {
-        // Get the content from .popup_q elements within the clicked grid-item
-        var popupContent = $(this).find('.popup_q').html();
-        
-        // Set the content in the popup container
-        $('#popupContent').html(popupContent);
+    // Initialize an empty string to hold the content
+    var popupContent = '';
 
-        // Display the popup container
-        $('#popupContainer').show();
+    // Find all .popup_q elements within the clicked .grid-item and iterate through them
+    $(this).find('.popup_q').each(function() {
+        // Append the HTML content of each .popup_q to the popupContent string
+        popupContent += $(this).html() + '<br><br>';
     });
+    
+    // Set the content in the popup container
+    $('#popupContent').html(popupContent);
+
+    // Display the popup container
+    $('#popupContainer').show();
+    });
+
 
     // Close the popup when the close button is clicked
     $('#popupClose').click(function() {
@@ -153,16 +199,7 @@ $(document).ready(function() {
         
         var citationText = $(this).attr('title');
 
-        console.log(citationText);
-        // console.log(jsonString);  // Log the JSON string to the console
-
-
-        // // Parse the JSON string
-        // var data = JSON.parse(jsonString);
-
-
-        // // Get the citation text
-        // var citationText = data.text;
+        // console.log(citationText);
 
         // Only proceed if citationText is a string and not empty
         if (typeof citationText === 'string' && citationText.trim() !== '') {
